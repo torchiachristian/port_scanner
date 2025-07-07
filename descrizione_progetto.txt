@@ -1,86 +1,40 @@
-Titolo progetto
+- Titolo progetto -
  port_scanner – Python TCP Port Scanner
 
-Descrizione
- Ho sviluppato uno scanner di porte TCP in Python, eseguibile da linea di comando. Supporta scansioni multithreaded su intervalli di porte personalizzati e salva i risultati in un file JSON. L'obiettivo era creare uno strumento leggero, semplice ma professionale, da pubblicare su GitHub come prova concreta di competenze tecniche di base in rete e scripting.
+- Descrizione -
+Ho sviluppato uno scanner di porte TCP in Python, eseguibile da linea di comando. Supporta scansioni multithreaded su intervalli di porte personalizzati e salva i risultati in un file JSON. L'obiettivo era creare uno strumento leggero, semplice ma professionale, da pubblicare su GitHub come prova concreta di competenze tecniche di base in rete e scripting.
 
-Tecnologie usate
+- Tecnologie usate -
 Python 3
-
-
 argparse
-
-
 socket
-
-
 threading
-
-
 json
-
-
 Git + GitHub
-
-
 Git Bash / PowerShell
 
-
-
-Struttura del progetto
+- Struttura del progetto - 
 scanner.py: script principale
-
-
 open_ports.json: file output JSON
-
-
 README.md: documentazione progetto
-
-
 requirements.txt: dipendenze (vuoto)
-
-
 LICENSE: licenza MIT
 
-
-
-Funzionalità
+- Funzionalità -
 Scansione TCP su IP e range di porte specificato
-
-
 Output CLI + salvataggio su file
-
-
 Multithread per aumentare la velocità
-
-
 Parametri da linea di comando con argparse
-
-
 Gestione errori base
-
-
 Nessuna dipendenza esterna
 
-
-
-Pubblicazione e rilascio
+- Pubblicazione e rilascio -
 Repository pubblica su GitHub
-
-
 README tecnico con istruzioni d’uso reali
-
-
 Licenza MIT
-
-
 Versione v1.0.0 rilasciata
-
-
 Verifica funzionamento da repository clonata
 
-
-
-Obiettivo e utilità
+- Obiettivo e utilità -
  Questo progetto è stato pensato come base pratica per mostrare competenze reali in programmazione Python, automazione di rete, uso di Git e GitHub, e conoscenze di base legate alla cybersecurity. È il primo passo concreto verso una specializzazione tecnica nel campo.
 
