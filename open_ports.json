@@ -1,8 +1,14 @@
 {
-    "target": "192.165.1.87",
+    "target": "127.0.0.1",
     "open_ports": [
-        132,
-        199,
-        441
+        {
+            "port": 135,
+            "protocol": "TCP"
+        },
+        {
+            "port": 445,
+            "protocol": "TCP"
+        }
     ]
 }
+
