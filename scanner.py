@@ -3,36 +3,45 @@ import threading
 import json
 import argparse
 import os
+import datetime
+import logging
+import multiprocessing
+
+# Setup log
+logging.basicConfig(
+    filename="scan.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 open_ports = []
 lock = threading.Lock()
 
 def scan_port(ip, port):
     try:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.settimeout(1)
-        result = sock.connect_ex((ip, port))
-        if result == 0:
-            with lock:
-                open_ports.append({"port": port, "protocol": "TCP"})
-        sock.close()
-    except:
-        pass
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.settimeout(1)
+            result = sock.connect_ex((ip, port))
+            if result == 0:
+                with lock:
+                    open_ports.append({"port": port, "protocol": "TCP"})
+                    logging.info(f"TCP port {port} is open")
+    except Exception as e:
+        logging.error(f"Error scanning TCP port {port}: {e}")
 
 def scan_udp(ip, port, timeout=1):
     try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.settimeout(timeout)
-        s.sendto(b"", (ip, port))
-        s.recvfrom(1024)
-        with lock:
-            open_ports.append({"port": port, "protocol": "UDP"})
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as s:
+            s.settimeout(timeout)
+            s.sendto(b"", (ip, port))
+            s.recvfrom(1024)
+            with lock:
+                open_ports.append({"port": port, "protocol": "UDP"})
+                logging.info(f"UDP port {port} is open or responded")
     except socket.timeout:
-        pass
-    except:
-        pass
-    finally:
-        s.close()
+        pass  # Silenzio: porta probabilmente filtrata
+    except Exception as e:
+        logging.error(f"Error scanning UDP port {port}: {e}")
 
 def genera_report_html(result):
     html = f"""<html>
@@ -60,29 +69,28 @@ def genera_report_html(result):
         f.write(html)
 
 def main():
-    parser = argparse.ArgumentParser(description="Simple Port Scanner")
+    parser = argparse.ArgumentParser(description="Advanced Port Scanner v2.0")
     parser.add_argument("ip", help="Target IP address")
     parser.add_argument("--start", type=int, default=1, help="Start port (default: 1)")
     parser.add_argument("--end", type=int, default=1024, help="End port (default: 1024)")
-    parser.add_argument("--udp", action="store_true", help="Include UDP scan")
+    parser.add_argument('--udp', action='store_true', help='Esegui anche scansione UDP')
     args = parser.parse_args()
+
+    max_threads = multiprocessing.cpu_count() * 5  # dinamico
+    sem = threading.Semaphore(max_threads)
 
     threads = []
 
-    max_threads = os.cpu_count() * 4
-
     for port in range(args.start, args.end + 1):
-        while threading.active_count() >= max_threads:
-            pass
-        t = threading.Thread(target=scan_port, args=(args.ip, port))
+        sem.acquire()
+        t = threading.Thread(target=lambda p=port: (scan_port(args.ip, p), sem.release()))
         threads.append(t)
         t.start()
 
     if args.udp:
         for port in range(args.start, args.end + 1):
-            while threading.active_count() >= max_threads:
-                pass
-            t = threading.Thread(target=scan_udp, args=(args.ip, port))
+            sem.acquire()
+            t = threading.Thread(target=lambda p=port: (scan_udp(args.ip, p), sem.release()))
             threads.append(t)
             t.start()
 
@@ -91,14 +99,14 @@ def main():
 
     result = {
         "target": args.ip,
-        "open_ports": sorted(open_ports, key=lambda x: x["port"])
+        "open_ports": sorted(open_ports, key=lambda x: x['port'])
     }
 
     with open("open_ports.json", "w") as f:
         json.dump(result, f, indent=4)
 
     genera_report_html(result)
-    print("Scan completo. Risultati salvati in open_ports.json e report.html")
+    print("✅ Scan completo. Risultati salvati in open_ports.json e report.html")
 
 if __name__ == "__main__":
     main()

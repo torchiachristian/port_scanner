@@ -1,22 +1,18 @@
-Simple Python Port Scanner è uno script Python multithread per la scansione rapida delle porte TCP di un host.
-Scansiona un intervallo di porte e salva i risultati delle porte aperte in formato JSON.
+# 🔎 Port Scanner v2.0
 
-Uso
-Apri il terminale nella cartella del progetto e digita:
-python scanner.py <IP> [--start PORTA_INIZIO] [--end PORTA_FINE]
+Scanner di porte TCP/UDP multithreaded sviluppato in Python.  
+Progetto creato per esercizio personale in ambito **cybersecurity** e **network scanning**.
 
-Esempio
-python scanner.py 192.168.1.85 --start 1 --end 1024
+## 🚀 Caratteristiche
+- ✅ Scansione **TCP e UDP**
+- ✅ Report **HTML** generato automaticamente
+- ✅ Logging su file `.log` con timestamp
+- ✅ Output in formato **JSON**
+- ✅ Multithreading con limite dinamico basato su CPU
 
-Output
-Risultati salvati in open_ports.json, con elenco delle porte aperte.
+## ⚙️ Utilizzo
 
-Requisiti
-- Python 3.x
-- Moduli standard Python (nessuna installazione aggiuntiva)
+```bash
+python scanner.py <IP> --start <porta_iniziale> --end <porta_finale> [--udp]
+python scanner.py 127.0.0.1 --start 20 --end 1024 --udp
 
-Contributi
-Pull request e segnalazioni issue sono benvenute.
-
-Licenza
-MIT License — vedi file LICENSE.
