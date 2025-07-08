@@ -1,4 +1,5 @@
 # 🔎 Port Scanner v2.0
+[![GitHub stars](https://img.shields.io/github/stars/torchiachristian/port_scanner?style=social)](https://github.com/torchiachristian/port_scanner/stargazers)
 
 Scanner di porte TCP/UDP multithreaded sviluppato in Python.  
 Progetto creato per esercizio personale in ambito **cybersecurity** e **network scanning**.
