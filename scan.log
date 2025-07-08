@@ -1,0 +1,4 @@
+2025-07-08 15:49:12 INFO:Scan avviata su 127.0.0.1 da porta 20 a 1024, UDP: True
+2025-07-08 15:49:12 INFO:Porte aperte trovate: [{'port': 135, 'protocol': 'TCP'}, {'port': 445, 'protocol': 'TCP'}]
+2025-07-08 15:49:46 INFO:Scan avviata su 127.0.0.1 da porta 20 a 1024, UDP: True
+2025-07-08 15:49:46 INFO:Porte aperte trovate: [{'port': 135, 'protocol': 'TCP'}, {'port': 445, 'protocol': 'TCP'}]
